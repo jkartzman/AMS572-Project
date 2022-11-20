@@ -6,9 +6,8 @@ dm_bu$X.bu. <- as.numeric(dm_bu$X.bu.)
 
 dm_bu$X.dm. <- gsub("\t","",dm_bu$X.dm.)
 
-dm_bu
 dm_bu <- na.omit(dm_bu)
-
+dm_bu <- dm_bu[which(dm_bu$X.dm.!="?"),]
 dmGroups = dm_bu %>% group_by(dm_bu$X.dm.)
 dmGroups <- group_split(dmGroups)
 
