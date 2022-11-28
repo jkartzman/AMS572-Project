@@ -1,5 +1,5 @@
 library(mice)
-
+library(MASS)
 cols <- c("numeric","numeric","numeric","numeric","numeric","factor","factor","factor","factor","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","factor","factor","factor","factor","factor","factor","factor")
 data <- read.csv(url("https://raw.githubusercontent.com/jkartzman/AMS572-Project/main/chronic_kidney_disease.csv"),header = TRUE,colClasses = cols,na.strings = "?")
 
@@ -45,8 +45,7 @@ data$X.pc. <- as.numeric(as.character(data$X.pc.))
 data$X.pcc. <- as.numeric(as.character(data$X.pcc.))
 data$X.ba. <- as.numeric(as.character(data$X.ba.))
 
-train_data <- data[21:380,]
-test_data <- data[c(1:20,381:400),]
-model <- glm(X.class.~.,data=train_data,family="binomial")
-probs <- predict(model,newdata=test_data,type = "response")
-preds <- ifelse(probs > 0.5,1,0)
+model <- glm(X.class.~X.age.+X.appet.+X.bgr.+X.bp.+X.hemo.+X.wbcc.+X.sod.+X.pot.+X.pcv.+X.rbcc.,data=data,family="binomial")
+# probs <- predict(model,newdata=test_data,type = "response")
+# preds <- ifelse(probs > 0.5,1,0)
+stepAICModel <- stepAIC(model, direction = "both")
