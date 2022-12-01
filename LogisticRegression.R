@@ -1,7 +1,6 @@
-library(mice)
 library(MASS)
-completeData <- read.csv("listwise-deletion.csv",header = TRUE)
-imputeData <- read.csv("imputed.csv",header = TRUE)
+imputedData <- read.csv(url("https://raw.githubusercontent.com/jkartzman/AMS572-Project/main/imputed.csv"),header =TRUE)
+completeData <- read.csv(url("https://raw.githubusercontent.com/jkartzman/AMS572-Project/main/listwise-deletion.csv"),header = TRUE)
 
 sprintf("Number of rows after removing rows with at least 1 missing value is : %d",nrow(completeData))
 
