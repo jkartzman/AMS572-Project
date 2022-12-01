@@ -1,4 +1,5 @@
 library(MASS)
+library(car)
 #we load the imputed dataset with 400 rows
 imputedData <- read.csv(url("https://raw.githubusercontent.com/jkartzman/AMS572-Project/main/imputed.csv"),header =TRUE)
 #we load the listwise deleted dataset as completeData which only has 158 rows
@@ -60,6 +61,9 @@ for( x in 1:nrow(testData)){
     correct = correct+1
   }
 }
+# collinearity assumption
+print(vif(stepAICImputedDataModel))
+print(vif(stepAICTrainModel))
 print(sprintf("Number of correct predictions : %f",correct))
 #test significance of final models 
 p_value=1-pchisq(stepAICTrainModel$null.deviance-stepAICTrainModel$deviance,stepAICTrainModel$df.null-stepAICTrainModel$df.residual)
