@@ -1,3 +1,23 @@
+library(mice)
+
+# Generate MNAR for test 1:
+data <- read.csv(url("https://raw.githubusercontent.com/jkartzman/AMS572-Project/main/imputed.csv"),header = TRUE)
+mnar_dataset <- data[c("X.bu.","X.dm.")]
+mnar <- ampute(mnar_dataset,prop = 0.2,patterns=c(0,1),weights=c(0,1),mech = "MNAR",type="RIGHT")
+mnar_amputed <- mnar$amp
+data$X.bu. <- mnar_amputed$X.bu.
+data$X.dm. <- mnar_amputed$X.dm.
+write.csv(data,"test1-mnar.csv",row.names=FALSE)
+
+# Generate MCAR for test 1:
+data <- read.csv(url("https://raw.githubusercontent.com/jkartzman/AMS572-Project/main/imputed.csv"),header = TRUE)
+mcar_dataset <- data[c("X.bu.","X.dm.")]
+mcar <- ampute(mcar_dataset,prop = 0.2,patterns=c(0,1),mech = "MCAR")
+mcar_amputed <- mcar$amp
+data$X.bu. <- mcar_amputed$X.bu.
+data$X.dm. <- mcar_amputed$X.dm.
+write.csv(data,"test1-mcar.csv",row.names=FALSE)
+
 # Generate MNAR for test 2:
 data <- read.csv(url("https://raw.githubusercontent.com/jkartzman/AMS572-Project/main/imputed.csv"),header = TRUE)
 mnar_dataset <- data[c("X.rbcc.","X.hemo.","X.class.")]
