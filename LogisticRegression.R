@@ -2,7 +2,7 @@ library(MASS)
 imputedData <- read.csv(url("https://raw.githubusercontent.com/jkartzman/AMS572-Project/main/imputed.csv"),header =TRUE)
 completeData <- read.csv(url("https://raw.githubusercontent.com/jkartzman/AMS572-Project/main/listwise-deletion.csv"),header = TRUE)
 
-sprintf("Number of rows after removing rows with at least 1 missing value is : %d",nrow(completeData))
+print(sprintf("Number of rows after removing rows with at least 1 missing value is : %d",nrow(completeData)))
 
 #Now complete data has all the rows with all entries present. Rows in original data
 #with at least one value missing are removed
@@ -18,7 +18,7 @@ stepAICCompleteDataModel <- stepAIC(completeDataModel, direction = "both",trace 
 print(summary(stepAICCompleteDataModel))
 
 
-sprintf("Number of rows in imputed data set is : %d",nrow(imputedData))
+print(sprintf("Number of rows in imputed data set is : %d",nrow(imputedData)))
 
 imputedDataModel <- glm(formulaSelectiveFactors, imputedData , family='binomial')
 print(summary(imputedDataModel))
@@ -57,11 +57,11 @@ for( x in 1:nrow(testData)){
     correct = correct+1
   }
 }
-sprintf("Number of correct predictions : %f",correct)
+print(sprintf("Number of correct predictions : %f",correct))
 
 p_value=1-pchisq(stepAICTrainModel$null.deviance-stepAICTrainModel$deviance,stepAICTrainModel$df.null-stepAICTrainModel$df.residual)
 #Another approach for same calculation
 p_value2=1-pchisq(nullModel$deviance-stepAICTrainModel$deviance,nullModel$df.residual-stepAICTrainModel$df.residual)
-sprintf("The p-value for purpose of statistical inference is : %f",p_value)
+print(sprintf("The p-value for purpose of statistical inference is : %f",p_value))
 accuracy=correct/nrow(testData)
-sprintf("The accuracy of the model as calculated on the test data is : %f",accuracy)
+print(sprintf("The accuracy of the model as calculated on the test data is : %f",accuracy))
