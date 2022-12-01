@@ -1,3 +1,4 @@
+install.package("car")
 library(MASS)
 library(car)
 #we load the imputed dataset with 400 rows
