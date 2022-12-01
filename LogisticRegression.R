@@ -23,6 +23,8 @@ sprintf("Number of rows in imputed data set is : %d",nrow(imputedData))
 imputedDataModel <- glm(formulaSelectiveFactors, imputedData , family='binomial')
 print(summary(imputedDataModel))
 
+imputedDataModel$coefficients
+
 stepAICImputedDataModel <- stepAIC(imputedDataModel, direction = "both",trace=FALSE)
 print(summary(stepAICImputedDataModel))
 
@@ -42,7 +44,7 @@ nullModel <- glm(X.class. ~ 1, trainData , family='binomial')
 print(summary(nullModel))
 
 anova(nullModel,stepAICTrainModel)
-
+stepAICTrainModel$deviance
 predictions <- predict(stepAICTrainModel,testData,type = "response")
 
 predictions <- ifelse(predictions>=0.5,1,0)
@@ -56,7 +58,10 @@ for( x in 1:nrow(testData)){
   }
 }
 sprintf("Number of correct predictions : %f",correct)
-p_value=1-pchisq(382.08-74.15,7)
+
+p_value=1-pchisq(stepAICTrainModel$null.deviance-stepAICTrainModel$deviance,stepAICTrainModel$df.null-stepAICTrainModel$df.residual)
+#Another approach for same calculation
+p_value2=1-pchisq(nullModel$deviance-stepAICTrainModel$deviance,nullModel$df.residual-stepAICTrainModel$df.residual)
 sprintf("The p-value for purpose of statistical inference is : %f",p_value)
 accuracy=correct/nrow(testData)
 sprintf("The accuracy of the model as calculated on the test data is : %f",accuracy)
